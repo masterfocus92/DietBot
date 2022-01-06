@@ -7,26 +7,20 @@ from telegram.ext import (
     CallbackContext
 )
 from telegram import Update
-
-
 from config import TOKEN
-import handlers
 
+import handlers
 import logging
 
+GENDER, AGE, WEIGHT, HEIGHT = range(4)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-GENDER, AGE, WEIGHT, HEIGHT = range(4)
-print(GENDER,AGE,WEIGHT)
-
 
 
 def main():
     updater = Updater(token = TOKEN)
     dispatcher = updater.dispatcher
-
 
     start_handler = CommandHandler('start', handlers.start)
     dispatcher.add_handler(start_handler)
@@ -42,7 +36,6 @@ def main():
         fallbacks=[CommandHandler('cancel', handlers.cancel)]
     )
     dispatcher.add_handler(conv_handler)
-
 
     updater.start_polling()
 
