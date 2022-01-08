@@ -75,26 +75,64 @@ def gender(update: Update, context: CallbackContext) -> int:
         reply_markup=ReplyKeyboardRemove(),
     )
     return AGE
-
-
+"""
+def check_input_is_int(state_in_conversation):
+    def decorator(func):
+        def wrapper(update, context):
+            try:
+                user_input = int(update.message.text)
+            except ValueError:
+                update.message.reply_text("Мне нужно число, попробуй еще раз :-)")
+                return state_in_conversation
+            logger.info("трай эксепт прошел")
+            func(update, context)
+            logger.info("Функция выполнена")
+        return wrapper
+    return decorator
+"""
+#@check_input_is_int(AGE)
 def age(update: Update, context: CallbackContext) -> int:
+    logger.info("func Age starts execution")
+
+    try:
+        user_input = int(update.message.text)
+    except ValueError:
+        update.message.reply_text("Мне нужно число, попробуй еще раз :-)")
+        return AGE
+
     user_params.set_age(update.message.text)
+
     update.message.reply_text(
         "Сколько ты весишь в килограмммах?",
     )
+    logger.info("func age is Complete, and return %s", WEIGHT)
+
     return WEIGHT
 
-
+#@check_input_is_int(WEIGHT)
 def weight(update: Update, context: CallbackContext) -> int:
+    try:
+        user_input = int(update.message.text)
+    except ValueError:
+        update.message.reply_text("Мне нужно число, попробуй еще раз :-)")
+        return WEIGHT
+
     user_params.set_weight(update.message.text)
+
     update.message.reply_text(
         "Сколько твой рост в сантиметрах?",
     )
 
     return HEIGHT
 
-
+#@check_input_is_int(HEIGHT)
 def height(update: Update, context: CallbackContext) -> int:
+    try:
+        user_input = int(update.message.text)
+    except ValueError:
+        update.message.reply_text("Мне нужно число, попробуй еще раз :-)")
+        return HEIGHT
+
     user_params.set_height(update.message.text)
 
     user_bmr = base_metabolic_rate(user_params)
